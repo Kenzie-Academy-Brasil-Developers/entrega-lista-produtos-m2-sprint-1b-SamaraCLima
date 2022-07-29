@@ -1,25 +1,25 @@
 function cards(productsItens){
     let produtosVitrine = document.querySelector(".containerListaProdutos ul")
     for(let i = 0; i < productsItens.length; i++){
-        let li = document.createElement("li")
-        let img = document.createElement("img")
-        let h3 = document.createElement("h3")
-        let span = document.createElement("span")
-        let p = document.createElement("p")
-        li.appendChild(img)
-        li.appendChild(h3)
-        li.appendChild(span)
-        li.appendChild(p)
-        img.src = productsItens[i].img
-        img.alt = "Imagem" + productsItens[i].nome
-        h3.innerText = productsItens[i].nome
-        span.innerText = productsItens[i].secao
-        if(productsItens[i].preco % 1 == 0){
-            p.innerText = "R$ " + productsItens[i].preco + ".00"}
-            else{
-            p.innerText = "R$ " + productsItens[i].preco}
-                produtosVitrine.appendChild(li)}
-    comprasTotal()
+    let li = document.createElement("li")
+    let img = document.createElement("img")
+    let h3 = document.createElement("h3")
+    let span = document.createElement("span")
+    let p = document.createElement("p")
+    li.appendChild(img)
+    li.appendChild(h3)
+    li.appendChild(span)
+    li.appendChild(p)
+    img.src = productsItens[i].img
+    img.alt = "Imagem" + productsItens[i].nome
+    h3.innerText = productsItens[i].nome
+    span.innerText = productsItens[i].secao
+    if(productsItens[i].preco % 1 == 0){
+       p.innerText = "R$ " + productsItens[i].preco + ".00"}
+        else{
+        p.innerText = "R$ " + productsItens[i].preco}
+        produtosVitrine.appendChild(li)}
+comprasTotal()
 }
 cards(produtos)
 let botao1 = document.querySelector(".estiloGeralBotoes")
@@ -50,7 +50,7 @@ function hortifruti(){
             let li = boxes[i].closest("li")
             li.remove()}
     }
-    comprasTotal()
+comprasTotal()
 }
 function panificadora(){
     let produtosCard = document.querySelectorAll(".containerListaProdutos ul li")
@@ -63,7 +63,7 @@ function panificadora(){
             let li = boxes[i].closest("li")
             li.remove()}
     }
-    comprasTotal()
+comprasTotal()
 }
 function laticinios(){
     let produtosCard = document.querySelectorAll(".containerListaProdutos ul li")
@@ -76,14 +76,14 @@ function laticinios(){
             let li = boxes[i].closest("li")
             li.remove()}
     }
-    comprasTotal()
+comprasTotal()
 }
 function todosItens(){
     let produtosCard = document.querySelectorAll(".containerListaProdutos ul li")
     for(let i = 0; i < produtosCard.length; i++){
         produtosCard[i].remove()}
     cards(produtos)
-    comprasTotal()
+comprasTotal()
 }
 function comprasTotal(){
     let total = 0
@@ -107,5 +107,5 @@ function itensPesquisa(){
             let produto = produtosNomes[i].closest("li")
             produto.remove()}
     }
-    comprasTotal()
+comprasTotal()
 }
