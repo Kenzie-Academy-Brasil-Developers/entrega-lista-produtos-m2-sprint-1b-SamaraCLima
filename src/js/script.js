@@ -1,111 +1,183 @@
-function cards(productsItens){
-    let produtosVitrine = document.querySelector(".containerListaProdutos ul")
-    for(let i = 0; i < productsItens.length; i++){
-    let li = document.createElement("li")
-    let img = document.createElement("img")
-    let h3 = document.createElement("h3")
-    let span = document.createElement("span")
-    let p = document.createElement("p")
-    li.appendChild(img)
-    li.appendChild(h3)
-    li.appendChild(span)
-    li.appendChild(p)
-    img.src = productsItens[i].img
-    img.alt = "Imagem" + productsItens[i].nome
-    h3.innerText = productsItens[i].nome
-    span.innerText = productsItens[i].secao
-    if(productsItens[i].preco % 1 == 0){
-       p.innerText = "R$ " + productsItens[i].preco + ".00"}
-        else{
-        p.innerText = "R$ " + productsItens[i].preco}
-        produtosVitrine.appendChild(li)}
-comprasTotal()
+let pesquisar = document.querySelector(".estiloGeralBotoes--botaoBuscaPorNome");
+let vitrine = document.querySelector(".campoBuscaPorNome");
+let input = document.querySelector(".campoBuscaPorNome");
+let ul = document.querySelector(".ul-produtos");
+let buttons = document.querySelector("#botoesContainer");
+let products = input.value;
+let result = [];
+let carrinho = document.querySelector(".add-carrinho");
+
+function lista(produto) {
+  let li = document.createElement("li");
+  li.classList.add("li-produtos");
+  li.setAttribute("id", produto.id);
+  let img = document.createElement("img");
+  let h3 = document.createElement("h3");
+  let span = document.createElement("span");
+  let p = document.createElement("p");
+  let button = document.createElement("button");
+  button.classList.add("button-comprar");
+  let div = document.createElement("div");
+  div.classList.add("mini-container");
+  let ol = document.createElement("ol");
+  for (let products of produto.componentes) {
+    let li1 = document.createElement("li");
+    li1.classList.add("li-produto");
+    li1.innerText = products;
+    ol.append(li1);
+  }
+  img.src = produto.img;
+  img.alt = produto.nome;
+  h3.innerText = produto.nome;
+  span.innerText = `R$ ${produto.preco},00`;
+  p.innerText = produto.tipo;
+  button.innerText = "Comprar";
+  div.append(span, button);
+  li.append(img, h3, p, ol, div);
+  return li;
 }
-cards(produtos)
-let botao1 = document.querySelector(".estiloGeralBotoes")
-let botao2 = document.querySelectorAll(".estiloGeralBotoes")
-let botaoHorti = 0
-let botaoPani = 0
-let botaoLati = 0
-for(let i = 0; i < botao2.length; i++){
-    if(botao2[i].innerText == "Hortifruti"){
-        botaoHorti = botao2[i]}
-    else if(botao2[i].innerText == "Panificadora"){
-        botaoPani = botao2[i]}
-    else if(botao2[i].innerText == "Laticínios"){
-        botaoLati = botao2[i]}
+function listaDoCarrinho(produto, indice) {
+  let li = document.createElement("li");
+  li.classList.add("li-produtos-carrinho");
+  li.setAttribute("id", produto.id);
+  let img = document.createElement("img");
+  let h3 = document.createElement("h3");
+  let span = document.createElement("span");
+  let p = document.createElement("p");
+  let button = document.createElement("button");
+  button.classList.add("button-remover");
+  let div = document.createElement("div");
+  div.classList.add("div-container");
+  let div2 = document.createElement("div");
+  div2.classList.add("div-container2");
+  let div3 = document.createElement("div");
+  div3.classList.add("div-container3");
+  img.src = produto.img;
+  img.alt = produto.nome;
+  h3.innerText = produto.nome;
+  span.innerText = `R$ ${produto.preco},00`;
+  p.innerText = produto.tipo;
+  button.innerText = "X";
+  button.id = indice
+  div.append(h3, button);
+  div2.append(p, span);
+  div3.append(div, div2);
+  li.append(img, div3);
+  return li;
 }
-botaoHorti.addEventListener("click", hortifruti)
-botaoPani.addEventListener("click", panificadora)
-botaoLati.addEventListener("click", laticinios)
-botao1.addEventListener("click", todosItens)
-function hortifruti(){
-    let produtosCard = document.querySelectorAll(".containerListaProdutos ul li")
-    for(let i = 0; i < produtosCard.length; i++){
-        produtosCard[i].remove()}
-    cards(produtos)
-    let boxes = document.querySelectorAll(".containerListaProdutos ul li span")
-    for(let i = 0; i < boxes.length; i++){
-        if(boxes[i].innerText !== "Hortifruti"){
-            let li = boxes[i].closest("li")
-            li.remove()}
+function itens(arrayProdutos) {
+  for (let i in arrayProdutos) {
+    objeto = arrayProdutos[i];
+    ul.append(lista(objeto));
+  }
+}
+function itensDoCarrinho(productCarrinho) {
+  carrinho.innerHTML = "";
+  for (let i in productCarrinho) {
+    let obj = productCarrinho[i]
+    carrinho.append(listaDoCarrinho(obj, i));
+  }
+}
+itens(produtos);
+buttons.addEventListener("click", (event) => {
+  let elemento = event.target;
+  let arrayPanificadora = [];
+  let arrayHorti = [];
+  let arrayFrutas = [];
+  if (elemento.id == "panificadora") {
+    console.log(elemento.textContent);
+    for (let i in produtos) {
+      let produto = produtos[i];
+      if (produto.tipo == "Pães") {
+        arrayPanificadora.push(produto);
+        ul.innerHTML = "";
+        itens(arrayPanificadora);
+      }
     }
-comprasTotal()
-}
-function panificadora(){
-    let produtosCard = document.querySelectorAll(".containerListaProdutos ul li")
-    for(let i = 0; i < produtosCard.length; i++){
-        produtosCard[i].remove()}
-    cards(produtos)
-    let boxes = document.querySelectorAll(".containerListaProdutos ul li span")
-    for(let i = 0; i < boxes.length; i++){
-        if(boxes[i].innerText !== "Panificadora"){
-            let li = boxes[i].closest("li")
-            li.remove()}
+  } else if (elemento.id == "hortifruti") {
+    for (let i in produtos) {
+      let produto = produtos[i];
+      if (produto.tipo == "fruta") {
+        arrayHorti.push(produto);
+        ul.innerHTML = "";
+        itens(arrayHorti);
+      }
     }
-comprasTotal()
-}
-function laticinios(){
-    let produtosCard = document.querySelectorAll(".containerListaProdutos ul li")
-    for(let i = 0; i < produtosCard.length; i++){
-        produtosCard[i].remove()}
-    cards(produtos)
-    let boxes = document.querySelectorAll(".containerListaProdutos ul li span")
-    for(let i = 0; i < boxes.length; i++){
-        if(boxes[i].innerText !== "Laticínio"){
-            let li = boxes[i].closest("li")
-            li.remove()}
+  } else if (elemento.id == "leite") {
+    for (let i in produtos) {
+      let produto = produtos[i];
+      if (produto.tipo == "Leite") {
+        arrayFrutas.push(produto);
+        ul.innerHTML = "";
+        itens(arrayFrutas);
+      }
     }
-comprasTotal()
+  } else {
+    ul.innerHTML = "";
+    itens(produtos);
+  }
+});
+pesquisar.addEventListener("click", (event) => {
+  let one = event.target;
+  result = [];
+  if (one.tagName == "BUTTON") {
+    let texto = vitrine.value.toLowerCase();
+    console.log(texto);
+    produtos.forEach((element) => {
+      if (element.nome.toLowerCase().includes(texto)) {
+        result.push(element);}
+    });
+  }
+  ul.innerHTML = "";
+  itens(result);
+});
+function totalProducts(array) {
+  let totalProdutos = document.querySelector(".carrinho-total");
+  let total = 0;
+  array.forEach((element) => (total += element.preco));
+  totalProdutos.innerHTML = `<p>${array.length}R$ ${total},00</p>`
 }
-function todosItens(){
-    let produtosCard = document.querySelectorAll(".containerListaProdutos ul li")
-    for(let i = 0; i < produtosCard.length; i++){
-        produtosCard[i].remove()}
-    cards(produtos)
-comprasTotal()
-}
-function comprasTotal(){
-    let total = 0
-    let produtosPrecos = document.querySelectorAll(".containerListaProdutos ul li p")
-    for(let i = 0; i < produtosPrecos.length; i++){
-        let precos = produtosPrecos[i].innerText.replace("R$ ", "")
-        total = parseFloat(precos) + total}
-    let container = document.querySelector(".priceContainer span")
-    if(total % 1 == 0){container.innerText = "R$ " + total +".00"}
-    else{container.innerText = "R$ " + total}
-}
-let botaoPesquisa = document.querySelector(".containerBuscaPorNome button")
-botaoPesquisa.addEventListener("click", itensPesquisa)
-let pesquisar = document.querySelector(".containerBuscaPorNome input")
-pesquisar.addEventListener("click", todosItens)
-function itensPesquisa(){
-    let produtosNomes = document.querySelectorAll(".containerListaProdutos ul li h3")
-    for(let i = 0; i < produtosNomes.length; i++){
-        let nome = produtosNomes[i].innerText.toLowerCase()
-        if(nome !== pesquisar.value){
-            let produto = produtosNomes[i].closest("li")
-            produto.remove()}
+addEventListener("eventu", (event) => {
+  console.log(event);
+  ul.innerHTML = "";
+  result = [];
+  let texto = vitrine.value.toLowerCase();
+  produtos.forEach((element) => {
+    if (element.nome.toLowerCase().includes(texto)) {
+      result.push(element);
     }
-comprasTotal()
-}
+  });
+  itens(result);
+});
+let productCarrinho = [];
+ul.addEventListener("click", (event) => {
+  let one = event.target;
+  let tipo2 = produtos;
+  let especific = one.closest("li");
+  let id = especific.id;
+  if (one.tagName == "BUTTON") {
+    for (let i in tipo2) {
+      let obj = tipo2[i];
+      if (id == tipo2[i].id) {  
+        productCarrinho.push(obj);
+      }
+    }
+  }
+  if (productCarrinho.length > 0) {
+    itensDoCarrinho(productCarrinho);
+  }
+  totalProducts(productCarrinho);
+});
+let ulCarrinho = document.querySelector(".add-carrinho");
+ulCarrinho.addEventListener("click", (event) => {
+  let one = event.target;
+  let atributos = one.closest("button");
+  let id = atributos.id;
+  if (one.tagName == "BUTTON") {
+    console.log(id)
+    productCarrinho.splice(id, 1)}
+  if (productCarrinho.length >= 0) {
+    itensDoCarrinho(productCarrinho);
+    totalProducts(productCarrinho)
+  }
+});
